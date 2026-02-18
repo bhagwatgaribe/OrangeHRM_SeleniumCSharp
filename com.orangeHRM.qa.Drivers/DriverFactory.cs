@@ -39,6 +39,56 @@ namespace OrangeHRM_SeleniumCSharp.Drivers
 
         public static void InitializeDriver()
         {
+            try
+            {
+                var browser = ConfigReader.GetConfigValue("Browser")?.Trim() ?? "Chrome";
+                Logger.Info($"Initializing WebDriver for browser: {browser}");
+
+                switch (browser.ToLowerInvariant())
+                {
+                    case "chrome":
+                        var chromeOptions = new ChromeOptions();
+                        chromeOptions.AddArgument("--start-maximized");
+                        driver.Value = new ChromeDriver(chromeOptions);
+                        break;
+
+                    case "firefox":
+                        var firefoxOptions = new FirefoxOptions();
+                        driver.Value = new FirefoxDriver(firefoxOptions);
+                        break;
+
+                    case "edge":
+                        var edgeOptions = new EdgeOptions();
+                        driver.Value = new EdgeDriver(edgeOptions);
+                        break;
+
+                    default:
+                        Logger.Warn($"Unknown browser '{browser}'. Falling back to Chrome.");
+                        driver.Value = new ChromeDriver();
+                        break;
+                }
+
+                var baseUrl = ConfigReader.GetConfigValue("BaseUrl");
+                if (!string.IsNullOrEmpty(baseUrl))
+                {
+                    driver.Value.Navigate().GoToUrl(baseUrl);
+                    Logger.Info($"Navigated to base URL: {baseUrl}");
+                }
+                else
+                {
+                    Logger.Warn("No BaseUrl specified in configuration.");
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Error("❌ WebDriver initialization FAILED", ex);
+                throw; // VERY IMPORTANT – lets NUnit mark test as failed with real cause
+            }
+        }
+
+
+        /*public static void InitializeDriver()
+        {
             // Read desired browser from configuration (defaults to Chrome)
             var browser = ConfigReader.GetConfigValue("Browser")?.Trim() ?? "Chrome";
 
@@ -77,7 +127,7 @@ namespace OrangeHRM_SeleniumCSharp.Drivers
             {
                 Logger.Warn("No BaseUrl specified in configuration.");
             }
-        }
+        }*/
 
         public static void QuitDriver()
         {

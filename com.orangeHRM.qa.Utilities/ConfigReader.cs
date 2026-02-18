@@ -15,7 +15,7 @@ namespace OrangeHRM_SeleniumCSharp.com.orangeHRM.qa.Utilities
         {
             configuration = new ConfigurationBuilder()
                 .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
-                .AddJsonFile("appsettings.json")
+                .AddJsonFile("Config/appsettings.json", optional: false)
                 .Build();
         }
 
