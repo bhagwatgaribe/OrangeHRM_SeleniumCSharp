@@ -3,6 +3,38 @@
 ##
 ## Get latest from https://github.com/github/gitignore/blob/main/VisualStudio.gitignore
 
+####################################
+# Selenium Automation Artifacts
+####################################
+
+# Selenium screenshots
+Screenshots/
+**/Screenshots/
+
+# Test reports (Extent / Allure / HTML)
+Reports/
+**/Reports/
+allure-results/
+allure-report/
+
+# Test execution logs
+Logs/
+**/Logs/
+
+# Downloads during tests
+Downloads/
+**/Downloads/
+
+# NUnit / Test output
+TestResults/
+**/TestResults/
+
+# Selenium Grid / Driver logs
+selenium-logs/
+chromedriver.log
+geckodriver.log
+msedgedriver.log
+
 # User-specific files
 *.rsuser
 *.suo
