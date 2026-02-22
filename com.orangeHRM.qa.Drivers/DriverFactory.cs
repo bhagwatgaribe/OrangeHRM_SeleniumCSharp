@@ -1,13 +1,15 @@
 ﻿using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
-using OpenQA.Selenium.Firefox;
 using OpenQA.Selenium.Edge;
+using OpenQA.Selenium.Firefox;
 using OrangeHRM_SeleniumCSharp.com.orangeHRM.qa.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using WebDriverManager;
+using WebDriverManager.DriverConfigs.Impl;
 
 namespace OrangeHRM_SeleniumCSharp.Drivers
 {
@@ -47,18 +49,24 @@ namespace OrangeHRM_SeleniumCSharp.Drivers
                 switch (browser.ToLowerInvariant())
                 {
                     case "chrome":
-                        var chromeOptions = new ChromeOptions();
-                        chromeOptions.AddArgument("--start-maximized");
-                        driver.Value = new ChromeDriver(chromeOptions);
+                        new DriverManager().SetUpDriver(new ChromeConfig());
+
+                        ChromeOptions options = new ChromeOptions();
+                        options.AddArgument("--start-maximized");
+                        driver.Value = new ChromeDriver(options);
                         break;
 
                     case "firefox":
-                        var firefoxOptions = new FirefoxOptions();
+                        new DriverManager().SetUpDriver(new FirefoxConfig());
+                        FirefoxOptions firefoxOptions = new FirefoxOptions();
+                        firefoxOptions.AddArgument("--start-maximized");
                         driver.Value = new FirefoxDriver(firefoxOptions);
                         break;
 
                     case "edge":
-                        var edgeOptions = new EdgeOptions();
+                        new DriverManager().SetUpDriver(new EdgeConfig());
+                        EdgeOptions edgeOptions = new EdgeOptions();
+                        edgeOptions.AddArgument("--start-maximized");
                         driver.Value = new EdgeDriver(edgeOptions);
                         break;
 
@@ -84,50 +92,7 @@ namespace OrangeHRM_SeleniumCSharp.Drivers
                 Logger.Error("❌ WebDriver initialization FAILED", ex);
                 throw; // VERY IMPORTANT – lets NUnit mark test as failed with real cause
             }
-        }
-
-
-        /*public static void InitializeDriver()
-        {
-            // Read desired browser from configuration (defaults to Chrome)
-            var browser = ConfigReader.GetConfigValue("Browser")?.Trim() ?? "Chrome";
-
-            Logger.Info($"Initializing WebDriver for browser: {browser}");
-
-            switch (browser.ToLowerInvariant())
-            {
-                case "chrome":
-                    var chromeOptions = new ChromeOptions();
-                    // add any default Chrome options here if needed
-                    driver.Value = new ChromeDriver(chromeOptions);
-                    break;
-                case "firefox":
-                    var firefoxOptions = new FirefoxOptions();
-                    driver.Value = new FirefoxDriver(firefoxOptions);
-                    break;
-                case "edge":
-                    var edgeOptions = new EdgeOptions();
-                    driver.Value = new EdgeDriver(edgeOptions);
-                    break;
-                default:
-                    // Fallback to Chrome if unknown value is provided
-                    Logger.Warn($"Unknown browser '{browser}' specified in configuration. Falling back to Chrome.");
-                    driver.Value = new ChromeDriver();
-                    break;
-            }
-
-            driver.Value.Manage().Window.Maximize();
-            var baseUrl = ConfigReader.GetConfigValue("BaseUrl");
-            if (!string.IsNullOrEmpty(baseUrl))
-            {
-                driver.Value.Navigate().GoToUrl(baseUrl);
-                Logger.Info($"Navigated to base URL: {baseUrl}");
-            }
-            else
-            {
-                Logger.Warn("No BaseUrl specified in configuration.");
-            }
-        }*/
+        }        
 
         public static void QuitDriver()
         {

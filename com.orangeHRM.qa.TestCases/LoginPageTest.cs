@@ -23,6 +23,7 @@ namespace OrangeHRM_SeleniumCSharp.com.orangeHRM.qa.TestCases
                 var password = ConfigReader.GetConfigValue("Credentials:Password");
 
                 Logger.Info($"Using username from config: {username}");
+                Logger.Info($"Using password from config: {password}");
 
                 // Get the initialized driver from the factory (initialized in BaseClass.SetUp)
                 var driver = Drivers.DriverFactory.GetDriver();

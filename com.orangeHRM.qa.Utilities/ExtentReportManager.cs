@@ -19,9 +19,14 @@ namespace OrangeHRM_SeleniumCSharp.com.orangeHRM.qa.Utilities
         {
             try
             {
-                var reportDir = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Reports");
+                var projectRoot = ProjectRootHelper.GetProjectRoot();
+                var reportDir = Path.Combine(projectRoot, "Reports");
                 Directory.CreateDirectory(reportDir);
-                ReportPath = Path.Combine(reportDir, $"TestReport_{DateTime.Now:yyyyMMdd_HHmmss}.html");
+
+                ReportPath = Path.Combine(
+                    reportDir,
+                    $"AutomationTestReport_{DateTime.Now:yyyyMMdd_HHmmss}.html"
+                );
             }
             catch
             {
