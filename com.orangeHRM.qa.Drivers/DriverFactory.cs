@@ -8,8 +8,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using WebDriverManager;
-using WebDriverManager.DriverConfigs.Impl;
+using System.Diagnostics;
+using System.IO;
+// Rely on Selenium Manager included with Selenium WebDriver to resolve driver binaries
 
 namespace OrangeHRM_SeleniumCSharp.Drivers
 {
@@ -49,23 +50,20 @@ namespace OrangeHRM_SeleniumCSharp.Drivers
                 switch (browser.ToLowerInvariant())
                 {
                     case "chrome":
-                        new DriverManager().SetUpDriver(new ChromeConfig());
-
-                        ChromeOptions options = new ChromeOptions();
-                        options.AddArgument("--start-maximized");
-                        driver.Value = new ChromeDriver(options);
+                        // Use Selenium Manager via default ChromeDriver constructor to obtain matching driver
+                        var chromeOptions = new ChromeOptions();
+                        chromeOptions.AddArgument("--start-maximized");
+                        driver.Value = new ChromeDriver(chromeOptions);
                         break;
 
                     case "firefox":
-                        new DriverManager().SetUpDriver(new FirefoxConfig());
-                        FirefoxOptions firefoxOptions = new FirefoxOptions();
+                        var firefoxOptions = new FirefoxOptions();
                         firefoxOptions.AddArgument("--start-maximized");
                         driver.Value = new FirefoxDriver(firefoxOptions);
                         break;
 
                     case "edge":
-                        new DriverManager().SetUpDriver(new EdgeConfig());
-                        EdgeOptions edgeOptions = new EdgeOptions();
+                        var edgeOptions = new EdgeOptions();
                         edgeOptions.AddArgument("--start-maximized");
                         driver.Value = new EdgeDriver(edgeOptions);
                         break;

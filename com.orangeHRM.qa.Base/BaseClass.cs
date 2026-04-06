@@ -24,7 +24,8 @@ namespace OrangeHRM_SeleniumCSharp.com.orangeHRM.qa.Base
             try
             {
                 var testName = TestContext.CurrentContext.Test.Name;
-                ExtentReportManager.CreateTest(testName);
+                // Create a scenario node for the current test and log start
+                ExtentReportManager.CreateScenario(testName);
                 ExtentReportManager.LogPass($"Starting test: {testName}");
             }
             catch (Exception ex)
@@ -47,7 +48,6 @@ namespace OrangeHRM_SeleniumCSharp.com.orangeHRM.qa.Base
                     if (!string.IsNullOrEmpty(path))
                     {
                         Logger.Error($"Test '{testName}' failed. Screenshot saved to: {path}");
-                        ExtentReportManager.AddScreenCapture(path);
                     }
                     else
                     {
@@ -55,7 +55,8 @@ namespace OrangeHRM_SeleniumCSharp.com.orangeHRM.qa.Base
                     }
 
                     var message = TestContext.CurrentContext.Result.Message;
-                    ExtentReportManager.LogFail($"{testName} - {message}");
+                    // Use the LogFail overload that accepts an optional screenshot path
+                    ExtentReportManager.LogFail($"{testName} - {message}", path);
                 }
                 else if (status == TestStatus.Passed)
                 {
@@ -63,7 +64,7 @@ namespace OrangeHRM_SeleniumCSharp.com.orangeHRM.qa.Base
                 }
                 else
                 {
-                    ExtentReportManager.LogFail($"{testName} - status: {status}");
+                    ExtentReportManager.LogFail($"{testName} - status: {status}", string.Empty);
                 }
             }
             catch (Exception ex)
@@ -84,7 +85,7 @@ namespace OrangeHRM_SeleniumCSharp.com.orangeHRM.qa.Base
             // Flush and open the report when all tests in the fixture are done
             try
             {
-                ExtentReportManager.Flush();
+                ExtentReportManager.FlushReport();
             }
             catch (Exception ex)
             {
