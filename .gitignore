@@ -1,8 +1,5 @@
 # Ignore test artifacts and generated reports/screenshots
-/Logs/
-/Reports/
-/Screenshots/
-/TestData/
+
 
 # Visual Studio, NuGet and build artifacts
 bin/
