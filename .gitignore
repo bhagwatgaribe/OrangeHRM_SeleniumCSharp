@@ -1,0 +1,21 @@
+# Ignore test artifacts and generated reports/screenshots
+/Logs/
+/Reports/
+/Screenshots/
+/TestData/
+
+# Visual Studio, NuGet and build artifacts
+bin/
+obj/
+.vs/
+*.user
+*.suo
+*.cache
+*.log
+
+# Rider
+.idea/
+
+# OS files
+Thumbs.db
+.DS_Store
